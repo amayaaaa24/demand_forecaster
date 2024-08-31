@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Sporting Goods Forecaster</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script>
+        // Function to update the label for slider values
+        function updateLabel(sliderId, labelId) {
+            var slider = document.getElementById(sliderId);
+            var label = document.getElementById(labelId);
+            label.innerHTML = slider.value;
+        }
+
+        // Function to update the label for the dropdown
+        function updateDropdownLabel(selectId, labelId) {
+            var select = document.getElementById(selectId);
+            var label = document.getElementById(labelId);
+            label.innerHTML = select.options[select.selectedIndex].text;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Online Sporting Goods Forecaster</h1>
+        <p>A model to predict the ordered quantity of a certain type of sports goods.</p>
+
+        <!-- Start of form -->
+        <form method="post" action="/">
+            <div class="row">
+                <div class="col">
+                    <h2>Product Details</h2>
+                    <label for="product_category">Product Category</label>
+                    <select id="product_category" name="product_category">
+                        <option value="Clothes">Clothes</option>
+                        <option value="Children Sports">Children Sports</option>
+                        <option value="Outdoors">Outdoors</option>
+                        <option value="Shoes">Shoes</option>
+                        <option value="Golf">Golf</option>
+                        <option value="Assorted Sports Articles">Assorted Sports Articles</option>
+                        <option value="Swim Sports">Swim Sports</option>
+                        <option value="Winter Sports">Winter Sports</option>
+                        <option value="Running - Jogging">Running - Jogging</option>
+                        <option value="Indoor Sports">Indoor Sports</option>
+                        <option value="Team Sports">Team Sports</option>
+                        <option value="Racket Sports">Racket Sports</option>
+                    </select>
+
+                    <label for="cpu">Cost Price Per Unit: <span id="cpuLabel">100</span></label>
+                    <input type="range" id="cpu" name="cpu" min="0" max="800" value="100" oninput="updateLabel('cpu', 'cpuLabel')">
+
+                    <label for="irv">Item Retail Value: <span id="irvLabel">100</span></label>
+                    <input type="range" id="irv" name="irv" min="0" max="1600" value="100" oninput="updateLabel('irv', 'irvLabel')">
+
+                    <label for="supplier_country">Supplier Country: <span id="countryLabel">US</span></label>
+                    <select id="supplier_country" name="supplier_country" onchange="updateDropdownLabel('supplier_country', 'countryLabel')">
+                        <option value="US">US</option>
+                        <option value="GB">GB</option>
+                        <option value="NL">NL</option>
+                        <option value="PT">PT</option>
+                        <option value="NO">NO</option>
+                        <option value="ES">ES</option>
+                        <option value="BE">BE</option>
+                        <option value="CA">CA</option>
+                        <option value="AU">AU</option>
+                        <option value="FR">FR</option>
+                        <option value="SE">SE</option>
+                        <option value="DK">DK</option>
+                        <option value="DE">DE</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <h2>Time</h2>
+                    <label for="month">Month: <span id="monthLabel">1</span></label>
+                    <input type="range" id="month" name="month" min="1" max="12" value="1" oninput="updateLabel('month', 'monthLabel')">
+
+                    <label for="day">Day: <span id="dayLabel">1</span></label>
+                    <input type="range" id="day" name="day" min="1" max="31" value="1" oninput="updateLabel('day', 'dayLabel')">
+
+                    <label for="day_week">Day of Week: <span id="dayWeekLabel">1</span></label>
+                    <input type="range" id="day_week" name="day_week" min="1" max="7" value="1" oninput="updateLabel('day_week', 'dayWeekLabel')">
+                </div>
+            </div>
+
+            <button type="submit">Predict Order Quantity</button>
+        </form>
+        <!-- End of form -->
+
+        {% if prediction %}
+            <h3>Predicted Order Quantity: {{ prediction }}</h3>
+        {% endif %}
+    </div>
+</body>
+</html>
